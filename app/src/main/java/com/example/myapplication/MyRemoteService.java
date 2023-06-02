@@ -3,7 +3,11 @@ package com.example.myapplication;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -18,7 +22,10 @@ public class MyRemoteService extends Service {
 
     public final String TAG = this.getClass().getName();
     private List<Book> books = new ArrayList<>();
+
+    private IRemoteServiceCallBack mCallback = null;
     public final String HELLO = "this is IMyAidlInterface sayHello function";
+
 
     @Override
     public void onCreate() {
@@ -68,6 +75,7 @@ public class MyRemoteService extends Service {
         public void addBookInOut(Book book) throws RemoteException {
             if (book != null) {
                 books.add(book);
+                mCallback.bookChanged();
             } else {
                 Log.e(TAG, "接收到了一个空对象 InOut");
             }
@@ -76,6 +84,12 @@ public class MyRemoteService extends Service {
         @Override
         public void getClientClassName(String className) throws RemoteException{
             Log.d(TAG, "ClientClassName = " + className);
+        }
+
+        @Override
+        public void registerCallback(IRemoteServiceCallBack callback) throws RemoteException{
+            Log.d(TAG, "registerCallback enter" );
+            mCallback = callback;
         }
     };
 

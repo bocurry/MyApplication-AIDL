@@ -12,22 +12,40 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+        <service
+            android:name=".MessengerService"
+            android:enabled="true"
+            android:exported="true"
+            android:process="com.example.myapplication.MessengerService"> <!-- 用于启动在不同于activity的进程 -->>
+        </service>
+
+<!--        <activity-->
+<!--            android:name=".MainActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
         <activity
-            android:name=".MainActivity"
+            android:name=".ActivityMessenger"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".MyRemoteService"
             android:enabled="true"
             android:exported="true"
             android:process="com.example.myapplication.MyRemoteService"> <!-- 用于启动在不同于activity的进程 -->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.example.myapplication.MyRemoteService.ACTION" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="com.example.myapplication.MyRemoteService.ACTION" /> -->
+            <!-- </intent-filter> -->
         </service>
     </application>
 

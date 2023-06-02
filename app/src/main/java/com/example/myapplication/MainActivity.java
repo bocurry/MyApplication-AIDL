@@ -7,7 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +23,30 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private IMyAidlInterface myAidlInterface;
     private final String TAG = this.getClass().getName();
+
+    private Handler handler =  new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case BOOK_CHANGED:
+                    Log.d(TAG, "handleMessage: book changed!");
+                    break;
+                default:
+                    super.handleMessage(msg);
+            }
+        }
+    };
+    private final int BOOK_CHANGED = 1;
+
+    private IRemoteServiceCallBack.Stub mCallback = new IRemoteServiceCallBack.Stub() {
+        @Override
+        public void bookChanged() {
+            Log.d(TAG, "bookChanged");
+            Message msg = handler.obtainMessage(BOOK_CHANGED);
+            handler.sendMessage(msg);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
     private ServiceConnection serviceConnection = new ServiceConnection() {
 
@@ -44,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
             myAidlInterface = IMyAidlInterface.Stub.asInterface(service);
             Log.i(TAG,"onServiceConnected");
             try {
+                //registerCallback
+                myAidlInterface.registerCallback(mCallback);
                 String s = myAidlInterface.sayHello();
                 int i = myAidlInterface.getPid();
                 Log.i(TAG,s + ", pid is " + i);
@@ -52,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
                 //add new book
                 myAidlInterface.addBookInOut(new Book("basketball"));
                 books = myAidlInterface.getBookList();
+                Log.i(TAG,s + "after add new book");
                 printBookList(books);
-
                 myAidlInterface.getClientClassName(TAG);
             }catch (RemoteException e){
                 e.printStackTrace();
