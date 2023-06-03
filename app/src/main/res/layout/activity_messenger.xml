@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/bindMessenger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="bind messenger"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="67dp" />
+        android:text="bindMessenger"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/sayHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Say Hello"
-        tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="406dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginTop="10dp"
+        android:text="sayHello"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="@id/bindMessenger"
+        app:layout_constraintStart_toStartOf="@id/bindMessenger"
+        app:layout_constraintTop_toBottomOf="@id/bindMessenger"
+ />
+</LinearLayout>
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

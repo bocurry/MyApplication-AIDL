@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -23,8 +24,10 @@ public class MessengerService extends Service {
     static final int MSG_REGISTER_CLIENT = 3;
     static final int MSG_UNREGISTER_CLIENT = 4;
 
+    static final int MSG_SEND_BUNDLE = 5;
 
-    private final String TAG = this.getClass().getName();
+
+    private final String TAG = "MessengerService";
 
     /**
      * Handler of incoming messages from clients.
@@ -65,6 +68,10 @@ public class MessengerService extends Service {
                         }
                     }
                     break;
+                case MSG_SEND_BUNDLE:
+                    Log.d("MessengerService", "handleMessage: MSG_SEND_BUNDLE");
+                    String value = msg.getData().getString("name");
+                    Log.d("MessengerService", "bundle key-value: " + value);
                 default:
                     super.handleMessage(msg);
             }
